@@ -2,6 +2,9 @@
     
     https://bbs.pediy.com/thread-249986.htm
     
+    看雪论坛https://bbs.pediy.com/thread-249912.htm
+    天融信阿尔法实验室https://www.freebuf.com/column/197672.html
+    
     某位研究生翻译的AFL技术白皮书    
     https://www.jianshu.com/p/cc7a486e5adb    
     https://blog.csdn.net/gengzhikui1992/article/details/50844857    
