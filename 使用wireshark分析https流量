@@ -1,0 +1,9 @@
+使用wireshark分析https流量：
+需要通过浏览器支持： 
+1、增加一个windows的环境变量SSLKEYLOGFILE ，其值指定为一个文件路径 
+下次启动Firefox或者Chrome的开发者模式的时候，TLS秘钥就会自动写入到该指定文件下面 
+2、设置wireshark的ssl协议，并指定上一步设定的文件作为ssl key log文件 
+Wireshark->Edit->Preference->Protocols->ssl->(Pre)-Master-Secret log filename 
+3、利用firefox或者chrome在开发模式下 
+4、打开https网站抓包，停止 
+5、利用wireshark的Follow SSL Stream 查看 
