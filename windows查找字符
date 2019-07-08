@@ -1,0 +1,6 @@
+findstr /si password *.log
+findstr /spin "password" *.*   //二进制文件查找，跳过包含不可打印字符的文件，不区分大小写，打印匹配的行号
+dir /s *pass*==*cred*==*vnc*== *.config
+
+reg query HKLM /f password /t REG_SZ /s
+reg query HKCU /f password /t REG_SZ /s
