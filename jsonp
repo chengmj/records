@@ -1,0 +1,50 @@
+这篇文档讲的最清楚：
+https://www.cnblogs.com/hyddd/archive/2009/07/02/1515768.html
+https://blog.csdn.net/jnu_simba/article/details/43241483
+防御：
+https://www.csdn.net/article/2015-07-14/2825207
+
+预防jsonp问题有可以从两个方面考虑：
+1、拒绝恶意的请求；
+2、防止JavaScript响应的直接执行；
+拒绝恶意的请求，可以让每一个请求包含一个攻击者难以猜到的参数来检测是否是恶意请求。类似预防CSRF的token机制。
+比如，在请求中添加一个session cookie，cookie遵循同源策略，因此恶意攻击者无法访问到session cookie。
+服务端只接受POST请求也可以防御jsonp，因为<script>标签总是使用GET方式加载外部资源。注意，这里服务端要禁止响应GET请求。
+
+防止响应直接执行：
+合法的客户端应用程序可以利用这样一个事实，即它可以在执行之前修改它接收的数据，而恶意应用程序只能使用<Script >标签执行它。
+服务端在序列化一个对象时包含一个前缀或后缀，使得响应不能使用<script>标签执行。而合法的用户可以在运行javascript之前去除额外的数据。比如：
+添加while(1); 或者将返回信息用注释包裹/*……*/
+
+
+下面一段话截取自：http://stackoverflow.com/questions/2067472/what-is-jsonp-all-about   仔细看看就比较清晰了。
+Say you're on domain abc.com, and you want to make a request to domain xyz.com. To do so, you need to cross domain boundaries, a no-no in most of browserland.
+The one item that bypasses this limitation is <script> tags. When you use a script tag, the domain limitation is ignored, but under normal circumstances, you can't really DO anything with the results, the script just gets evaluated.
+Enter JSONP. When you make your request to a server that is JSONP enabled, you pass a special parameter that tells the server a little bit about your page. That way, the server is able to nicely wrap up its response in a way that your page can handle.
+For example, say the server expects a parameter called "callback" to enable its JSONP capabilities. Then your request would look like:
+http://www.xyz.com/sample.aspx?callback=mycallback
+
+Without JSONP, this might return some basic JavaScript object, like so:
+{ foo: 'bar' }
+
+However, with JSONP, when the server receives the "callback" parameter, it wraps up the result a little differently, returning something like this:
+mycallback({ foo: 'bar' });
+
+As you can see, it will now invoke the method you specified. So, in your page, you define the callback function:
+mycallback = function(data){
+ 
+  alert(data.foo);
+}
+};
+
+And now, when the script is loaded, it'll be evaluated, and your function will be executed. Voila, cross-domain requests!
+
+jsonp问题首先要确定两点：
+1、使用JavaScript作为数据传输格式，json数组也认为是javascript；
+2、处理机密数据；
+
+JSON RFC将JSON语法定义为JavaScript对象文字语法的子集。
+任何可以将消息解释为一个或多个有效JavaScript语句的数据传输格式都易受JavaScript劫持的影响。
+JSON使JavaScript劫持更容易，因为JSON数组本身就是一个有效的JavaScript语句。
+换句话说，JSON数组直接受到JavaScript劫持的影响。如果JSON对象被封装在其他JavaScript结构中，它本身就是一个有效的JavaScript语句，那么它就很脆弱。
+A JSON object is only vulnerable if it is wrapped in some other JavaScript construct that stands on its own as a valid JavaScript statement.
