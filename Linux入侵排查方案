@@ -1,0 +1,83 @@
+1、可疑账号检查，不能有多余账号出现
+查询不明特权账户
+awk -F: '$3==0{print $1}' /etc/passwd
+
+查询可以远程登录的不明账号信息：
+awk '/\$1|\$6/{print $1}' /etc/shadow
+
+检查是否存在sudo权限的不明账号
+more /etc/sudoers | grep -v "^#\|^$" | grep "ALL=(ALL)"
+
+2、查看登录信息
+w 命令：该命令查询 /var/log/wtmp 文件并显示 当前 系统中每个用户和它所运行的进程信息
+last 命令：该命令往回搜索 /var/log/wtmp 文件来显示自从该文件第一次创建以来所有登录过的用户
+lastlog?命令：检查所有用户上次登录的时间
+
+3、网络检查，排查可疑网络连接和服务端口
+端口，网络情况检查，分析可疑端口、可疑IP及可疑进程
+netstat -antlp
+lsof -i
+查看可疑的网络连接情况，定位pid号
+查看下pid所对应的进程文件路径
+ls -l /proc/$PID/exe或file /proc/$PID/exe（$PID 为对应的pid 号）
+
+4、可疑进程检查
+进程分析，检查是否有可疑进程
+ps aux 
+
+5、开机启动文件检查
+more /etc/rc.local /etc/rc.d/rc[0~6].d ls -l /etc/rc.d/rc3.d/
+
+计划任务排查，查看以下目录中是否有不明的脚本
+/var/spool/cron/* 
+/etc/crontab
+/etc/cron.d/*
+/etc/cron.daily/* 
+/etc/cron.hourly/* 
+/etc/cron.monthly/*
+/etc/cron.weekly/
+/etc/anacrontab
+/var/spool/anacron/*
+
+6、系统日志分析
+access.log
+error.log
+
+定位有多少IP在爆破主机的root帐号：    
+grep "Failed password for root" /var/log/secure | awk '{print $11}' | sort | uniq -c | sort -nr | more
+定位有哪些IP在爆破：
+grep "Failed password" /var/log/secure|grep -E -o "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"|uniq -c
+爆破用户名字典是什么？
+ grep "Failed password" /var/log/secure|perl -e 'while($_=<>){ /for(.*?) from/; print "$1\n";}'|uniq -c|sort -nr
+登录成功的IP有哪些：   
+grep "Accepted " /var/log/secure | awk '{print $11}' | sort | uniq -c | sort -nr | more
+登录成功的日期、用户名、IP：
+grep "Accepted " /var/log/secure | awk '{print $1,$2,$3,$9,$11}' 
+增加一个用户的日志
+grep "useradd" /var/log/secure
+删除用户的日志
+grep "userdel" /var/log/secure
+
+
+7、rpm安装包校验
+rpm -Va
+结果说明
+S 表示文件长度发生了变化
+M 表示文件的访问权限或文件类型发生了变化
+5 表示MD5校验和发生了变化
+D 表示设备节点的属性发生了变化
+L 表示文件的符号链接发生了变化
+U 表示文件/子目录/ 设备节点的owner 发生了变化
+G 表示文件/子目录/ 设备节点的group 发生了变化
+T 表示文件最后一次的修改时间是发生了变化
+
+8、网站源码检查
+使用比较工具，比较网站源码和备份代码，检查是否被篡改，植入webshell、一句话木马等。
+
+9、命令记录检查
+历史命令检查，管理员确认是否有不明的操作记录，如wget、ssh、tar等命令
+打开/home各帐号目录下的.bash_history，查看普通帐号的历史命令
+cat .bash_history >> history.txt
+
+10、ssh目录检查
+检查/etc/.ssh ~/.ssh 目录下有无可疑公钥
